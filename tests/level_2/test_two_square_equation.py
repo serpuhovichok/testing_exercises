@@ -1,45 +1,42 @@
 from functions.level_2.two_square_equation import solve_square_equation
+import pytest
 
 
-def test__solve_square_equation__full_square_equation_success():
-    square_coefficient = 1
-    linear_coefficient = -4
-    const_coefficient = -5
-
+@pytest.mark.parametrize("square_coefficient, linear_coefficient, const_coefficient, root_1, root_2",
+                         [(1, -4, -5, -1, 5)]
+                         )
+def test__solve_square_equation__full_square_equation_returns_two_roots(square_coefficient, linear_coefficient, const_coefficient, root_1, root_2):
     result = solve_square_equation(square_coefficient, linear_coefficient, const_coefficient)
 
-    assert result[0] == -1
-    assert result[1] == 5
+    assert result[0] == root_1
+    assert result[1] == root_2
 
 
-def test__solve_square_equation__discriminant_less_than_zero():
-    square_coefficient = 2
-    linear_coefficient = -1
-    const_coefficient = 1
-
+@pytest.mark.parametrize("square_coefficient, linear_coefficient, const_coefficient, root_1, root_2",
+                         [(2, -1, 1, None, None)]
+                         )
+def test__solve_square_equation__returns_none_when_discriminant_less_than_zero(square_coefficient, linear_coefficient, const_coefficient, root_1, root_2):
     result = solve_square_equation(square_coefficient, linear_coefficient, const_coefficient)
 
-    assert result[0] is None
-    assert result[1] is None
+    assert result[0] == root_1
+    assert result[1] == root_2
 
 
-def test__solve_square_equation__without_square_and_linear_coefficients():
-    square_coefficient = 0
-    linear_coefficient = 0
-    const_coefficient = 1
-
+@pytest.mark.parametrize("square_coefficient, linear_coefficient, const_coefficient, root_1, root_2",
+                         [(0, 0, 1, None, None)]
+                         )
+def test__solve_square_equation__returns_none_without_square_and_linear_coefficients(square_coefficient, linear_coefficient, const_coefficient, root_1, root_2):
     result = solve_square_equation(square_coefficient, linear_coefficient, const_coefficient)
 
-    assert result[0] is None
-    assert result[1] is None
+    assert result[0] == root_1
+    assert result[1] == root_2
 
 
-def test__solve_square_equation__without_square_coefficient():
-    square_coefficient = 0
-    linear_coefficient = 2
-    const_coefficient = 1
-
+@pytest.mark.parametrize("square_coefficient, linear_coefficient, const_coefficient, root_1, root_2",
+                         [(0, 2, 1, -0.5, None)]
+                         )
+def test__solve_square_equation__returns_one_root_without_square_coefficient(square_coefficient, linear_coefficient, const_coefficient, root_1, root_2):
     result = solve_square_equation(square_coefficient, linear_coefficient, const_coefficient)
 
-    assert result[0] == -0.5
-    assert result[1] is None
+    assert result[0] == root_1
+    assert result[1] == root_2

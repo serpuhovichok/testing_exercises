@@ -2,32 +2,18 @@ from functions.level_2.three_first import first
 import pytest
 
 
-def test__first__items_not_empty():
-    items = [1, 2, 3]
+@pytest.mark.parametrize("data, result",
+                         [([1, 2, 3], 1)]
+                         )
+def test__first__returns_first_when_items_not_empty(data, result):
+    assert first(data) == result
 
-    result = first(items)
 
-    assert result == 1
-
-
-def test__first__items_empty__default_not_set():
-    items = []
-
+def test__first__items_empty__raise_error_when_default_not_set():
     with pytest.raises(AttributeError):
-        result = first(items)
+        result = first([])
 
 
-def test__first__items_empty__none_default():
-    items = []
-
-    result = first(items, None)
-
-    assert result is None
-
-
-def test__first__items_empty__int_default():
-    items = []
-
-    result = first(items, 15)
-
-    assert result == 15
+@pytest.mark.parametrize("default_value", [None, 15])
+def test__first__return_default_value_when_items_empty(default_value):
+    assert first(items=[], default=default_value) == default_value

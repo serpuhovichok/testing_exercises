@@ -1,38 +1,45 @@
 from functions.level_2.four_sentiment import check_tweet_sentiment
+import pytest
 
 
 GOOD_WORDS = {'радостный', 'счастливый', 'отличный', 'замечательный', 'прекрасный'}
 BAD_WORDS = {'грустный', 'плохой', 'ужасный', 'отвратительный', 'злой'}
 
 
-def test__check_tweet_sentiment__without_good_and_bad_words():
-    text = 'Съешь ещё этих мягких французских булок, да выпей же чаю'
-
-    result = check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS)
-
-    assert result is None
-
-
-def test__check_tweet_sentiment__with_equal_amount_good_and_bad_words():
-    text = 'Настроение у неё было отличное, несмотря на отвратительную погоду'
-
-    result = check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS)
-
-    assert result is None
+@pytest.mark.parametrize("text, result",
+                         [('Съешь ещё этих мягких французских булок, да выпей же чаю', None)]
+                         )
+def test__check_tweet_sentiment__result_none_without_good_and_bad_words(text, result):
+    assert check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS) == result
 
 
-def test__check_tweet_sentiment__with_more_good_words():
-    text = 'Праздник получился просто замечательный, прекрасный и радостный, хотя вначале было немного ужасно'
+@pytest.mark.parametrize("text, result",
+                         [('Настроение у неё было отличное, несмотря на отвратительную погоду', None)]
+                         )
+def test__check_tweet_sentiment__result_none_with_equal_amount_good_and_bad_words(text, result):
+    assert check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS) == result
 
-    result = check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS)
 
-    assert result == 'GOOD'
+@pytest.mark.parametrize("text, result",
+                         [
+                             (
+                                'Праздник получился просто замечательный, прекрасный и радостный, хотя вначале было немного ужасно',
+                                'GOOD'
+                             )
+                         ]
+                        )
+def test__check_tweet_sentiment__result_good_with_more_good_words(text, result):
+    assert check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS) == result
 
 
-def test__check_tweet_sentiment__with_more_bad_words():
-    text = 'День был ужасный, отвратительный и грустный, хотя начался с отличного настроения'
-
-    result = check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS)
-
-    assert result == 'BAD'
+@pytest.mark.parametrize("text, result",
+                         [
+                             (
+                                'День был ужасный, отвратительный и грустный, хотя начался с отличного настроения',
+                                'BAD'
+                             )
+                         ]
+                        )
+def test__check_tweet_sentiment__result_bad_with_more_bad_words(text, result):
+    assert check_tweet_sentiment(text=text, good_words=GOOD_WORDS, bad_words=BAD_WORDS) == result
 
