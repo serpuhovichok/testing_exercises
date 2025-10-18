@@ -11,5 +11,5 @@ import pytest
         ('ya.ru', 'search', {3: 'c'}, 'ya.ru/search?3=c'),
     ]
 )
-def test_build_url(host_name: str, relative_url: str, get_params: Mapping[str, str], result: str):
+def test__build_url__success(host_name: str, relative_url: str, get_params: Mapping[str, str], result: str):
     assert build_url(host_name=host_name, relative_url=relative_url, get_params=get_params) == result

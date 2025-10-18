@@ -10,7 +10,7 @@ TOMORROW = datetime.date.today() + datetime.timedelta(days=1)
     ('', '12:34', TODAY),
     ('tomorrow', '12:34', TOMORROW),
 ])
-def test_compose_datetime_from_today(date_str: str, time_str: str, given_date: datetime.date):
+def test__compose_datetime_from___today(date_str: str, time_str: str, given_date: datetime.date):
     result = compose_datetime_from(date_str=date_str, time_str=time_str)
     assert result.year == given_date.year
     assert result.month == given_date.month
